@@ -96,7 +96,7 @@ $row = mysqli_fetch_array($penjual);
               </a>
             </li>
             <li class="menu-item active">
-              <a href="toko.html" class="menu-link">
+              <a href="toko.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store-alt"></i>
                 <div>Toko</div>
               </a>
@@ -108,12 +108,12 @@ $row = mysqli_fetch_array($penjual);
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="tambah-produk.html" class="menu-link">
+                  <a href="tambah-produk.php" class="menu-link">
                     <div>Tambah Produk</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="list-produk.html" class="menu-link">
+                  <a href="list-produk.php" class="menu-link">
                     <div>List Produk</div>
                   </a>
                 </li>

@@ -91,7 +91,7 @@ $result = tampil_barangtoko($_SESSION['penjual_id']);
               </a>
             </li>
             <li class="menu-item">
-              <a href="toko.html" class="menu-link">
+              <a href="toko.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store-alt"></i>
                 <div>Toko</div>
               </a>
@@ -248,7 +248,7 @@ $result = tampil_barangtoko($_SESSION['penjual_id']);
                 $num++;
                 echo "<tr>";
                 echo "<td>{$num}</td>";
-                echo "<td><img src='imgbarang/" . $row['foto_produk'] . "'style='width:100px;'></td>";
+                echo "<td><img src='imgbarang/" . $row['foto_produk'] . "'style='width:100px;' class='rounded'></td>";
                 echo "<td> ". $row['nama_produk'] . "</td>";
                 echo "<td> " . $row['harga_produk'] . "</td>";
                 echo "<td>" . $row['jumlah_produk'] . "</td>";
@@ -267,26 +267,7 @@ $result = tampil_barangtoko($_SESSION['penjual_id']);
               }
             }
           ?>                                                     
-                            <tr>
-                              <td>2</td>
-                              <td>madu.jpg</td>
-                              <td>Madu Tara</td>
-                              <td>Rp50.000</td>
-                              <td>98</td>
-                              <td>botol</td>
-                              <td>28-11-23</td>
-                              <td>
-                                <div class="dropdown">
-                                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                  </button>
-                                  <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
+                           
                           </tbody>
                         </table>
                       </div>
