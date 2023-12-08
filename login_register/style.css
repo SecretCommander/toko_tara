@@ -1,0 +1,97 @@
+      body {
+        font-family: Arial, sans-serif;
+        background-color: white;
+      }
+
+      form {
+        max-width: 500px;
+        margin-left: 10px;
+        margin: 0 auto;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 25px;
+        background-color: #f9f9f9;
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      .input-section {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="date"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .required-color {
+        color: red;
+      }
+
+      .error-message {
+        color: #ff4747;
+        display: none;
+      }
+       input[type="submit"] {
+        margin-top: 2em;
+        margin-right: 10;
+        width: 50%;
+        padding: 13px;
+        border: none;
+        border-radius: 15px;
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+       }
+
+       input[type="submit"]:hover{
+        background-color: #45a049;
+       }
+       
+       input[type="submit"]:active{
+        background-color: #45a049;
+       }
+
+      button {
+        margin-top: 2em;
+        margin-right: 10;
+        width: 50%;
+        padding: 13px;
+        border: none;
+        border-radius: 15px;
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      button:active {
+        background-color: #3e8e41;
+      }
+
+      button#signup-button {
+        background-color: #2196f3;
+      }
+
+      button#signup-button:hover {
+        background-color: #0b7dda;
+      }
+
+      button#signup-button:active {
+        background-color: #0a6ebd;
+      }
