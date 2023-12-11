@@ -1,6 +1,7 @@
 <?php
 include('koneksi.php');
 include('function.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,9 +79,10 @@ include('function.php');
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form>
-                                <input class="input" placeholder="Search here">
-                                <button class="search-btn">
+
+                            <form action="search.php" method="POST">
+                                <input class="input" name="keyword" placeholder="Search here" autocomplete="on">
+                                <button class="search-btn" name="cari">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
@@ -483,6 +485,7 @@ include('function.php');
                             <script src="js/nouislider.min.js"></script>
                             <script src="js/jquery.zoom.min.js"></script>
                             <script src="js/main.js"></script>
+                            <script src="js/search.js"></script>
 
 </body>
 
