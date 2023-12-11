@@ -78,9 +78,9 @@ include('function.php');
                     <!-- SEARCH BAR -->
                     <div class="col-md-6">
                         <div class="header-search">
-                            <form>
-                                <input class="input" placeholder="Search here">
-                                <button class="search-btn">
+                        <form action="search.php" method="POST">
+                                <input class="input" name="keyword" placeholder="Search here" autocomplete="on">
+                                <button class="search-btn" name="cari">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </form>
@@ -241,8 +241,7 @@ include('function.php');
                             <div class="row">
                                 <div class="products-tabs">
                                     <!-- tab -->
-                                    <div id="tab1" class="tab-pane active">
-                                        <div class="products-slick" data-nav="#slick-nav-1">
+                                    <div class="products-slick" data-nav="#slick-nav-1">
                                             <!-- product -->
                                             <div class="product">
                                                 <div class="product-img">
@@ -252,7 +251,7 @@ include('function.php');
                                                     </div>
                                                 </div>
                                                 <div class="product-body">
-                                                    <h3 class="product-name"><a href="www.youtube.com">Makanan</a></h3>
+                                                    <h3 class="product-name"><a href="kategori.php?K=MAKANAN">Makanan</a></h3>
                                                 </div>
                                             </div>
                                             <!-- /product -->
@@ -266,7 +265,7 @@ include('function.php');
                                                     </div>
                                                 </div>
                                                 <div class="product-body">
-                                                    <h3 class="product-name"><a href="#">Minuman</a></h3>
+                                                    <h3 class="product-name"><a href="kategori.php?K=MINUMAN">Minuman</a></h3>
                                                 </div>
                                             </div>
                                             <!-- /product -->
@@ -281,7 +280,7 @@ include('function.php');
                                                 </div>
                                                 <div class="product-body">
 
-                                                    <h3 class="product-name"><a href="#">Baju</a></h3>
+                                                    <h3 class="product-name"><a href="kategori.php?K=PAKAIAN">Baju</a></h3>
                                                 </div>
 
                                             </div>
@@ -294,7 +293,7 @@ include('function.php');
                                                         style="margin: 0 auto; margin-top: 25px">
                                                 </div>
                                                 <div class="product-body">
-                                                    <h3 class="product-name"><a href="#">Celana</a></h3>
+                                                    <h3 class="product-name"><a href="kategori.php?K=PAKAIAN">Celana</a></h3>
 
                                                 </div>
                                                 <!-- /product -->
@@ -309,7 +308,7 @@ include('function.php');
                         </div>
                         <div class="col-md-12">
                             <div class="section-title">
-                                <h3 class="title">Related Products</h3>
+                                <h3 class="title"><?php echo (!isset($_GET['K']) || $_GET['K'] === '') ? "<script>window.location.href = 'index.php';</script>" : "Kategori : ".$_GET['K'] ; ?></h3>
                             </div>
                         </div>
                         <?php

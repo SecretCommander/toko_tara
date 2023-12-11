@@ -180,10 +180,23 @@ global $result;
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav">
                     <li class="active"><a href="index.html">Home</a></li>
-                    <li><a href="#">Celana</a></li>
-                    <li><a href="#">Makanan Kering</a></li>
-                    <li><a href="#">Minuman Ringan</a></li>
-                    <li><a href="#">Baju</a></li>
+                    <?php
+                    $sql = "SELECT DISTINCT kategori_produk FROM barang";
+                    $result = mysqli_query($conn, $sql);
+                    if (mysqli_num_rows($result) > 0) {
+                        // Create an array to store the categories
+                        $menuItems = array();
+                    
+                        // Fetch data and store it in the $menuItems array
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $menuItems[] = $row['kategori_produk'];
+                        }
+                        foreach ($menuItems as $item) {
+                            echo '<li><a href="kategori.php?K='.$item.'">' . $item . '</a></li>';
+                        }
+                    }
+                    
+                ?>
                 </ul>
                 <!-- /NAV -->
             </div>
@@ -234,8 +247,7 @@ global $result;
                             <div class="row">
                                 <div class="products-tabs">
                                     <!-- tab -->
-                                    <div id="tab1" class="tab-pane active">
-                                        <div class="products-slick" data-nav="#slick-nav-1">
+                                    <div class="products-slick" data-nav="#slick-nav-1">
                                             <!-- product -->
                                             <div class="product">
                                                 <div class="product-img">
@@ -245,7 +257,7 @@ global $result;
                                                     </div>
                                                 </div>
                                                 <div class="product-body">
-                                                    <h3 class="product-name"><a href="www.youtube.com">Makanan</a></h3>
+                                                    <h3 class="product-name"><a href="kategori.php?K=MAKANAN">Makanan</a></h3>
                                                 </div>
                                             </div>
                                             <!-- /product -->
@@ -259,7 +271,7 @@ global $result;
                                                     </div>
                                                 </div>
                                                 <div class="product-body">
-                                                    <h3 class="product-name"><a href="#">Minuman</a></h3>
+                                                    <h3 class="product-name"><a href="kategori.php?K=MINUMAN">Minuman</a></h3>
                                                 </div>
                                             </div>
                                             <!-- /product -->
@@ -274,7 +286,7 @@ global $result;
                                                 </div>
                                                 <div class="product-body">
 
-                                                    <h3 class="product-name"><a href="#">Baju</a></h3>
+                                                    <h3 class="product-name"><a href="kategori.php?K=PAKAIAN">Baju</a></h3>
                                                 </div>
 
                                             </div>
@@ -287,7 +299,7 @@ global $result;
                                                         style="margin: 0 auto; margin-top: 25px">
                                                 </div>
                                                 <div class="product-body">
-                                                    <h3 class="product-name"><a href="#">Celana</a></h3>
+                                                    <h3 class="product-name"><a href="kategori.php?K=PAKAIAN">Celana</a></h3>
 
                                                 </div>
                                                 <!-- /product -->
