@@ -1,17 +1,17 @@
+<?php
+include 'function_pjl.php';
+include 'koneksi.php';
+include 'function.php';
+
+
+if (!isset($_SESSION['penjual_id'])) {
+    header("location: ../../penjual/login.php");
+}
+$row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
+$result = tampil_barangtoko($_SESSION['penjual_id']);
+?>
 <!DOCTYPE html>
 
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
-<!-- beautify ignore:start -->
 <html
   lang="en"
   class="light-style layout-menu-fixed"
@@ -74,7 +74,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
-              <img src="../assets/img/taralogo.png" alt="" width="190px">
+              <img src="../assets/img/tara.png" alt="" width="190px">
               <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
             </a>
 
@@ -93,7 +93,7 @@
               </a>
             </li>
             <li class="menu-item">
-              <a href="toko.html" class="menu-link">
+              <a href="toko.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store-alt"></i>
                 <div>Toko</div>
               </a>
@@ -105,12 +105,12 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="tambah-produk.html" class="menu-link">
+                  <a href="tambah-produk.php" class="menu-link">
                     <div>Tambah Produk</div>
                   </a>
                 </li>
                 <li class="menu-item active">
-                  <a href="list-produk.html" class="menu-link">
+                  <a href="list-produk.php" class="menu-link">
                     <div>List Produk</div>
                   </a>
                 </li>
@@ -167,8 +167,8 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block"><?= $row['nama_toko']?></span>
+                            <small class="text-muted"><?= $row['nama_penjual']?></small>
                           </div>
                         </div>
                       </a>
@@ -201,7 +201,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="logout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
@@ -223,70 +223,53 @@
                   <div class="card">
                     <div class="card-header">
                       <h4>List Produk</h4>
-                      <p class="mt-n2">produk-produk yang pernah anda tampilkan</p>
+                      <p class="mt-n2">produk-produk yang anda tampilkan</p>
                     </div>
-                    <div class="card-body">
-                      <div class="table-responsive text-nowrap">
-                        <table class="table table-hover">
-                          <thead>
-                            <tr>
-                              <th width="50px">No</th>
-                              <th>SKU</th>
-                              <th>Gambar</th>
-                              <th>Nama Barang</th>
-                              <th>Kategori</th>
-                              <th>Harga</th>
-                              <th>Jumlah Stok</th>
-                              <th>Satuan</th>
-                              <th>Date</th>
-                              <th style="text-align: center;">Aksi</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>SKU-001</td>
-                              <td>basreng.jpg</td>
-                              <td>Basreng Tara</td>
-                              <td>Makanan</td>
-                              <td>Rp15.000</td>
-                              <td>135</td>
-                              <td>pcs</td>
-                              <td>28-11-23</td>
-                              <td>
-                                <div class="dropdown">
-                                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                  </button>
-                                  <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>SKU-002</td>
-                              <td>madu.jpg</td>
-                              <td>Madu Tara</td>
-                              <td>Minuman</td>
-                              <td>Rp50.000</td>
-                              <td>98</td>
-                              <td>botol</td>
-                              <td>28-11-23</td>
-                              <td>
-                                <div class="dropdown">
-                                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                  </button>
-                                  <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
+          <?php 
+            if($result){
+              $num = 0;
+              if (mysqli_num_rows($result) > 0){
+                echo "<div class='card-body'>";
+                echo "<div class='table-responsive text-nowrap'>";
+                echo "<table class='table table-hover'>";
+                echo "<thead>";
+                echo "<tr>";
+                echo "<th width='50px'>No</th>";
+                echo "<th>Gambar</th>";
+                echo "<th>Nama Barang</th>";
+                echo "<th>Harga</th>";
+                echo "<th>Jumlah Stok</th>";
+                echo "<th>Satuan</th>";
+                echo "<th>Date</th>";
+                echo "<th style='text-align: center;'>Aksi</th>";
+                echo "</tr>";
+                echo "</thead>";
+                echo "<tbody>";
+              }
+              while ($row = mysqli_fetch_array($result)) {
+                $num++;
+                echo "<tr>";
+                echo "<td>{$num}</td>";
+                echo "<td><img src='imgbarang/" . $row['foto_produk'] . "'style='width:100px;' class='rounded'></td>";
+                echo "<td> ". $row['nama_produk'] . "</td>";
+                echo "<td> " . $row['harga_produk'] . "</td>";
+                echo "<td>" . $row['jumlah_produk'] . "</td>";
+                echo "<td>stok</td>";
+                echo "<td>" . $row['tgl_upload'] . "</td>";
+                echo "<td>";
+                echo "<div class='dropdown'>";
+                echo "<button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>";
+                echo "<i class='bx bx-dots-vertical-rounded'></i>";
+                echo "</button>";
+                echo "<div class='dropdown-menu'>";
+                echo "<a class='dropdown-item' href='../../barang/update_barang.php?id=" . $row['id_produk'] . "'><i class='bx bx-edit-alt me-1'></i> Edit</a>";
+                echo "<a class='dropdown-item' href='../../barang/delete.php?id=" . $row['id_produk'] . "'><i class='bx bx-trash me-1'></i> Delete</a>";
+                echo "</div>";
+                echo "</div></td></tr>";
+              }
+            }
+          ?>                                                     
+                           
                           </tbody>
                         </table>
                       </div>
