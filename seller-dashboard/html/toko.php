@@ -1,17 +1,17 @@
-<?php
-include 'koneksi.php';
-include 'function_pjl.php';
-
-if (!isset($_SESSION['penjual_id'])) {
-    header("location: ../../penjual/login.php");
-}
-
-$row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
-
-?>
 <!DOCTYPE html>
 
+<!-- =========================================================
+* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
+==============================================================
 
+* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
+* Created by: ThemeSelection
+* License: You must have a valid license purchased in order to legally use the theme for your project.
+* Copyright ThemeSelection (https://themeselection.com)
+
+=========================================================
+ -->
+<!-- beautify ignore:start -->
 <html
   lang="en"
   class="light-style layout-menu-fixed"
@@ -74,7 +74,7 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
-              <img src="../assets/img/tara.png" alt="" width="190px">
+              <img src="../assets/img/taralogo.png" alt="" width="190px">
               <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
             </a>
 
@@ -94,7 +94,7 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
               </a>
             </li>
             <li class="menu-item active">
-              <a href="toko.php" class="menu-link">
+              <a href="toko.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store-alt"></i>
                 <div>Toko</div>
               </a>
@@ -106,12 +106,12 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="tambah-produk.php" class="menu-link">
+                  <a href="tambah-produk.html" class="menu-link">
                     <div>Tambah Produk</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="list-produk.php" class="menu-link">
+                  <a href="list-produk.html" class="menu-link">
                     <div>List Produk</div>
                   </a>
                 </li>
@@ -168,8 +168,8 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block"><?= $row['nama_toko']; ?></span>
-                            <small class="text-muted"><?= $row['nama_penjual']; ?></small>
+                            <span class="fw-semibold d-block">John Doe</span>
+                            <small class="text-muted">Admin</small>
                           </div>
                         </div>
                       </a>
@@ -202,7 +202,7 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="logout.php">
+                      <a class="dropdown-item" href="auth-login-basic.html">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
@@ -234,24 +234,23 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
                                 <p class="mt-2">Ekstensi file foto yang <br> diperbolehkan JPG,JPEG,PNG</p>
                                 <button type="button" class="btn btn-outline-success mb-3">Success</button><br>
                                 <label for="slogan" class="mb-2"><b>Slogan</b></label><br>
-                                <input class="form-control" type="text" value="<?php echo $row['slogan']; ?>"name="slogan" id="slogan" placeholder="Masukkan Slogan Anda..."><br><br>
+                                <input class="form-control" type="text" name="slogan" id="slogan" placeholder="Masukkan Slogan Anda..."><br><br>
                                 <label for="desc" class="mb-2"><b>Deskripsi</b></label>
-                                <textarea class="form-control" type="text" name="desc" id="desc" cols="30" rows="5" placeholder="Masukkan Deskripsi Anda" ><?php echo $row['deskripsi']; ?></textarea>
+                                <textarea class="form-control" name="desc" id="desc" cols="30" rows="5" placeholder="Deskripsi"></textarea>
                               </div>
                             </div>
                           </div>
                           <div class="col-lg-6 col-md-12 col-sm-12 col-6 mb-4">
                             <div class="">
                               <div class="card-body">
-                                <p><b>Nama Toko</b> <br><?= $row['nama_toko'] ?></p>
-                                <label for="domain" class="mb-2"><b>Domain</b></label><br>
-                                <input class="form-control" type="text" value="<?php echo $row['domain']; ?>" name="domain" id="domain" placeholder="Masukkan Domain Anda..."><br>
+                                <p><b>Nama Toko</b><br>Basreng Tara</p>
+                                <p><b>Domain Toko</b><br>www.tokotara.com/basreng</p>
                                 <button type="button" class="btn btn-outline-success mb-5">Success</button>
                                 <h5 class="mt-2">Informasi Kontak</h5>
                                 <label for="email" class="mb-2"><b>E-mail</b></label><br>
-                                <input class="form-control" type="email" value="<?php echo $row['email']; ?>" name="email" id="email" placeholder="Masukkan E-mail Anda..."><br><br>
+                                <input class="form-control" type="email" name="email" id="email" placeholder="Masukkan E-mail Anda..."><br><br>
                                 <label for="telp" class="mb-2"><b>No. Telepon</b></label><br>
-                                <input class="form-control" type="tel" value="<?php echo $row['telepon']; ?>" name="telp" id="telp" placeholder="Masukkan Telepon Anda...">
+                                <input class="form-control" type="tel" name="telp" id="telp" placeholder="Masukkan Telepon Anda...">
                               </div>
                             </div>
                           </div>
@@ -267,8 +266,8 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
                             <p class="mt-2">Ekstensi file foto yang <br> diperbolehkan JPG,JPEG,PNG</p>
                             <button type="button" class="btn btn-outline-success mb-3">Success</button><br>
                             <p><b>Nama Toko</b><br>Basreng Tara</p>
-                            <input class="form-control" type="text" name="domain" id="domain" placeholder="Masukkan Domain Anda..."><br>
-                                <button type="button" class="btn btn-outline-success mb-5">Success</button>                            <button type="button" class="btn btn-outline-success">Success</button>
+                            <p><b>Domain Toko</b><br>www.tokotara.com/basreng</p>
+                            <button type="button" class="btn btn-outline-success">Success</button>
                           </div>
                         </div>
                       </div>
@@ -276,7 +275,7 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
                         <div class="">
                           <div class="card-body">
                             <label for="slogan" class="mb-2"><b>Slogan</b></label><br>
-                            <input class="form-control" type="text"  name="slogan" id="slogan" placeholder="Masukkan Slogan Anda..."><br>
+                            <input class="form-control" type="text" name="slogan" id="slogan" placeholder="Masukkan Slogan Anda..."><br>
                             <label for="desc" class="mb-2"><b>Deskripsi</b></label>
                             <textarea class="form-control mb-5" name="desc" id="desc" cols="30" rows="5" placeholder="Deskripsi"></textarea>
                             <h5 class="mt-2">Informasi Kontak</h5>
