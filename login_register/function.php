@@ -3,9 +3,9 @@ session_start();
 require 'koneksi.php';
 
 //Function Registrasi SQL
-function register($conn, $username, $nama, $password, $telepon, $email, $alamat, $usia, $provinsi, $kota) {
-    $sql = "INSERT INTO pembeli (username, nama_pembeli, password , telepon, email, alamat, tgl_lahir, provinsi_p, kota_p) 
-    VALUES ('$username', '$nama','$password','$telepon','$email','$alamat','$usia','$provinsi','$kota')";
+function register($conn, $username, $nama, $password, $telepon, $email, $alamat, $usia, $provinsi, $kota, $kecamatan) {
+    $sql = "INSERT INTO pembeli (username, nama_pembeli, password , telepon, email, alamat, tgl_lahir, provinsi_p, kota_p, kecamatan_p) 
+    VALUES ('$username', '$nama','$password','$telepon','$email','$alamat','$usia','$provinsi','$kota', '$kecamatan')";
     if (mysqli_query($conn, $sql)) {
         return true;
     } else {
@@ -26,9 +26,11 @@ function regist(){
         $usia       = $_POST['usia'];
         $provinsi   = $_POST['provinsi'];
         $kota       = $_POST['kota'];
+        $kecamatan  = $_POST['camat'];
+
 
         
-        if (register($conn, $username, $nama, $password, $telepon, $email, $alamat, $usia, $provinsi, $kota)) {
+        if (register($conn, $username, $nama, $password, $telepon, $email, $alamat, $usia, $provinsi, $kota, $kecamatan)) {
             echo "<script>alert('Registration successful'); window.location.href='index.php';</script>";
         } else {
             echo "<script>alert('Registration failed, Username Mungkin Sudah Ada');</script>";
