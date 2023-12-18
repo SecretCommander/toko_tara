@@ -1,7 +1,10 @@
 <?php
 require_once 'function.php';
 require 'koneksi.php';
-
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+  echo  "<script>alert('berhasil');</script>";
+  die();
+}
 regist();
 ?>
 <!DOCTYPE html>
@@ -34,7 +37,7 @@ regist();
       <div class="col-md-6">
         <div class="form-container">
           <!-- Your form HTML here -->
-          <form autocomplete="off" onsubmit="return checkPassword()" method="post">
+          <form autocomplete="off" onsubmit="return checkPassword() && cekUsia()" method="post">
             <center>
               <h2>Register</h2>
             </center><br>
@@ -97,8 +100,9 @@ regist();
               <span id="empty-first-name" class="hide required-color error-message"> Address Cannot Be Empty</span>
             </div>
             <div class="input-section">
-              <label for="usia">Date Of Birth<span class="required-color">*</span></label>
-              <input type="date" name="usia" id="usia" required />
+              <label for="tanggalInput">Date Of Birth<span class="required-color">*</span></label>
+              <input type="date" id="tanggalInput" >
+              
               <span id="date-of-birth-error" class="hide required-color error-message">Invalid Input</span>
               <span id="empty-date-of-birth" class="hide required-color error-message"> Cannot Be Empty</span>
             </div>
@@ -117,6 +121,14 @@ regist();
               <select class="form-control w-90" id="select2-kabupaten" name="kota" required>
                 <!-- Options will be dynamically added using JavaScript -->
                 <option value="" disabled selected>- Select Kota -</option>
+              </select>
+            </div>
+
+            <div class="input-section">
+              <label for="select2-kecamatan">Kecamatan/Kelurahan<span class="required-color">*</span></label>
+              <select class="form-control w-90" id="select2-kecamatan" name="camat" required>
+                <!-- Options will be dynamically added using JavaScript -->
+                <option value="" disabled selected>- Select Kecamatan -</option>
               </select>
             </div>
 
@@ -145,6 +157,7 @@ regist();
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="script.js"></script>
+  <!-- fungsi mengecek password agar sama -->
   <script>
     function checkPassword() {
       var password = document.getElementById("password").value;
@@ -160,9 +173,11 @@ regist();
   </script>
 
 </body>
+<!-- fungsi API provinsi/kota/kecamatan -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- provinsi -->
 <script>
   fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
     .then(response => response.json())
@@ -178,6 +193,7 @@ regist();
       document.getElementById('select2-provinsi').innerHTML = tampung;
     });
 </script>
+<!-- kabupaten/kota  -->
 <script>
   const selectProvinsi = document.getElementById('select2-provinsi');
 
@@ -187,9 +203,9 @@ regist();
       .then(response => response.json())
       .then(regencies => {
         var data = regencies;
-        var tampung = '<option>Pilih</option>';
+        var tampung = '<option>- Select kota -</option>';
 
-        document.getElementById('select2-kabupaten').innerHTML = '<option>Pilih</option>';
+        document.getElementById('select2-kabupaten').innerHTML = '<option>- Select Kabupaten   -</option>';
         data.forEach(element => {
           tampung +=
             `<option data-dist="${element.id}" value="${element.name}">${element.name}</option>`;
@@ -198,7 +214,27 @@ regist();
       });
   });
 </script>
+<!-- Kecamatan/kelurahan -->
+<script>
+   const selectKota = document.getElementById('select2-kabupaten');
 
+  selectKota.addEventListener('change', (e) => {
+    var kota = e.target.options[e.target.selectedIndex].dataset.dist;
+    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kota}.json`)
+    .then(response => response.json())
+    .then(districts => { 
+      var data = districts;
+      var tampung = '<option>- Select kecamatan -</option>';
+      
+      document.getElementById('select2-kecamatan').innerHTML = '<option>- Select Kecamatan -</option>';
+      data.forEach(element => {
+        tampung +=
+          `<option data-vill="${element.id}" value="${element.name}">${element.name}</option>`;
+      });
+      document.getElementById('select2-kecamatan').innerHTML = tampung;
+    });
+  });
+</script>
 
 
 </html>
