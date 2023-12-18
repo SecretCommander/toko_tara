@@ -1,9 +1,12 @@
 <?php
-session_start();
+
 require 'koneksi.php';
 //Proses Input Vidio
 function uvid($vidio)
 {
+    if(!isset($vidio['name']) || empty($vidio['name'])){
+        return;
+    }
     if (isset($vidio['name'])) {
         $sizevid = $vidio['size'];
         $split = explode('.', $vidio['name']);
@@ -14,7 +17,7 @@ function uvid($vidio)
             </script>";
             return false;
         }
-
+    
         $vid = uniqid() . "." . $ext;
 
         $dir = "video/";
@@ -27,28 +30,30 @@ function uvid($vidio)
     }
 }
 //Proses Input Gambar 
-function upload($gambar, $inputn)
+function upload($gambar,$input)
 {
+    if(!isset($gambar['name']) || empty($gambar['name'])){
+        return;
+    }
     if (isset($gambar['name'])) {
         $error = $gambar['error'];
         $split = explode('.', $gambar['name']);
         $ext = $split[count($split) - 1];
 
         $fot = uniqid() . "." . $ext;
-        if($error === 4 && $inputn == 'foto'){
-            echo "<script>
-            alert('pilih gambar terlebih dahulu');
-            </script>";
-            return false;
-        }
+        if ($input == 'foto') {
+            if($error === 4){
+                echo "<script>
+                alert('pilih gambar terlebih dahulu');
+                </script>";
+                return false;
+            }    
+        } 
+        
 
-        $dir = "img/";
+        $dir = "imgbarang/";
 
-        if ($inputn == 'foto1') {
-            $dir = "img2/";
-        } elseif ($inputn == 'foto2') {
-            $dir = "img3/";
-        }
+        
 
         $tmpfile = $gambar['tmp_name'];
 
@@ -71,12 +76,24 @@ function input_data()
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nama_produk = htmlspecialchars($_POST['np']);
-        $Stok_produk = $_POST['Jlh'];
+        $Stok_produk = $_POST['jlh'];
+        $berat = $_POST['berat'];
+        $panjang = $_POST['panjang'];
+        $lebar = $_POST['lebar'];
+        $tinggi = $_POST['tinggi'];
+        function belahkah(){
+            if (isset($_POST['belah']) && !empty($_POST['belah'])){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        $belah = belahkah();
 
         $vidioo = uvid($_FILES['vidi']);
-        $foto_produk = upload($_FILES['foto'], 'foto');
-        $foto2 = upload($_FILES['foto1'], 'foto1');
-        $foto3 = upload($_FILES['foto2'], 'foto2');
+        $foto_produk = upload($_FILES['foto'], "foto");
+        $foto2 = upload($_FILES['foto1'], "foto1");
+        $foto3 = upload($_FILES['foto2'],"foto1");
 
         $kategori = $_POST['kate'];
         $harga = $_POST['harga'];
@@ -85,11 +102,11 @@ function input_data()
 
 
         // Perform the SQL query to insert the data into the database
-        $sql = "INSERT INTO barang (nama_produk, jumlah_produk, foto_produk, kategori_produk, harga_produk, berat, deskripsi_produk, id_toko, vid, foto2, foto3) 
-            VALUES ('$nama_produk', '$Stok_produk', '$foto_produk', '$kategori', '$harga', '$berat', '$deskripsi', '$id_penjual', '$vidioo','$foto2', '$foto3')";
+        $sql = "INSERT INTO barang (nama_produk, jumlah_produk, foto_produk, kategori_produk, harga_produk, berat, deskripsi_produk, id_toko, vid, foto2, foto3,  panjang, lebar, tinggi, belah) 
+            VALUES ('$nama_produk', '$Stok_produk', '$foto_produk', '$kategori', '$harga', '$berat', '$deskripsi', '$id_penjual', '$vidioo','$foto2', '$foto3','$panjang','$lebar','$tinggi', '$belah')";
 
         if (mysqli_query($conn, $sql)) {
-            echo "<script>alert('Data berhasil dimasukkan'); window.location.href='tampil_barang.php';</script>";
+            echo "<script>alert('Data berhasil dimasukkan'); window.location.href='list-produk.php';</script>";
             mysqli_close($conn);
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -137,7 +154,7 @@ function delete_item($var_id)
         mysqli_stmt_bind_param($stmt, "i", $var_id);
 
         if (mysqli_stmt_execute($stmt)) {
-            echo "<script>alert('Item deleted successfully'); window.location.href='tampil_barang.php';</script>";
+            echo "<script>alert('Item deleted successfully'); window.location.href='list-barang.php';</script>";
         } else {
             echo "Error deleting item";
         }
@@ -191,10 +208,10 @@ function tampil_data()
     return $result;
 }
 //Function Barang sesuai Toko
-function tampil_barangtoko()
+function tampil_barangtoko($idtoko)
 {
     global $conn;
-    $sql = "SELECT * FROM barang WHERE id_toko=";//id toko
+    $sql = "SELECT * FROM barang WHERE id_toko= '$idtoko'";//id toko
     $result = mysqli_query($conn, $sql);
     return $result;
 }
