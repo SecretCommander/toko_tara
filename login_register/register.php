@@ -1,11 +1,8 @@
 <?php
 require_once 'function.php';
 require 'koneksi.php';
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
-  echo  "<script>alert('berhasil');</script>";
-  die();
-}
 regist();
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -21,6 +18,7 @@ regist();
     rel="stylesheet">
   <!-- Stylesheet -->
   <link rel="stylesheet" type="text/css" href="style1.css">
+ 
 </head>
 
 <body>
@@ -37,7 +35,7 @@ regist();
       <div class="col-md-6">
         <div class="form-container">
           <!-- Your form HTML here -->
-          <form autocomplete="off" onsubmit="return checkPassword() && cekUsia()" method="post">
+          <form autocomplete="off" onsubmit="return checkPassword() && cekUsia();" method="post">
             <center>
               <h2>Register</h2>
             </center><br>
@@ -101,7 +99,7 @@ regist();
             </div>
             <div class="input-section">
               <label for="tanggalInput">Date Of Birth<span class="required-color">*</span></label>
-              <input type="date" id="tanggalInput" >
+              <input type="date" id="tanggalInput" name="usia">
               
               <span id="date-of-birth-error" class="hide required-color error-message">Invalid Input</span>
               <span id="empty-date-of-birth" class="hide required-color error-message"> Cannot Be Empty</span>
@@ -160,16 +158,36 @@ regist();
   <!-- fungsi mengecek password agar sama -->
   <script>
     function checkPassword() {
-      var password = document.getElementById("password").value;
-      var confirmPassword = document.getElementById("confirm_password").value;
+  var password = document.getElementById("password").value;
+  var confirmPassword = document.getElementById("confirm_password").value;
 
 
-      if (password !== confirmPassword) {
-        alert("Passwords do not match. Please try again.");
-        return false;
-      }
-      return true;
-    }
+  if (password !== confirmPassword) {
+    alert("Passwords do not match. Please try again.");
+    return false;
+  }
+  return true;
+}
+
+function cekUsia() {
+  var inputTanggal = document.getElementById('tanggalInput').value;
+  var tanggalLahir = new Date(inputTanggal);
+  var sekarang = new Date();
+
+  var usia = sekarang.getFullYear() - tanggalLahir.getFullYear();
+
+  // Pastikan tanggal lahir tahun ini belum tercapai
+  tanggalLahir.setFullYear(sekarang.getFullYear());
+  if (tanggalLahir > sekarang) {
+    usia--;
+  }
+
+  if (usia < 17) {
+    alert('Maaf, Anda harus berusia minimal 17 tahun. ');
+    return false; // Menghentikan pengiriman formulir
+  }
+  return true; // Lanjutkan pengiriman formulir jika usia memenuhi syarat
+}
   </script>
 
 </body>
