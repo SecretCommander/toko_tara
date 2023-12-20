@@ -4,6 +4,9 @@ require 'koneksi.php';
 //Proses Input Vidio
 function uvid($vidio)
 {
+    if(!isset($vidio['name']) || empty($vidio['name'])){
+        return;
+    }
     if (isset($vidio['name'])) {
         $sizevid = $vidio['size'];
         $split = explode('.', $vidio['name']);
@@ -14,7 +17,7 @@ function uvid($vidio)
             </script>";
             return false;
         }
-
+    
         $vid = uniqid() . "." . $ext;
 
         $dir = "video/";
@@ -29,6 +32,9 @@ function uvid($vidio)
 //Proses Input Gambar 
 function upload($gambar,$input)
 {
+    if(!isset($gambar['name']) || empty($gambar['name'])){
+        return;
+    }
     if (isset($gambar['name'])) {
         $error = $gambar['error'];
         $split = explode('.', $gambar['name']);
@@ -75,6 +81,7 @@ function input_data()
         $panjang = $_POST['panjang'];
         $lebar = $_POST['lebar'];
         $tinggi = $_POST['tinggi'];
+        $sku  = "SKU-".$_POST['sku'];
         function belahkah(){
             if (isset($_POST['belah']) && !empty($_POST['belah'])){
                 return true;
@@ -90,17 +97,17 @@ function input_data()
         $foto3 = upload($_FILES['foto2'],"foto1");
 
         $kategori = $_POST['kate'];
-        $harga = 25000;
+        $harga = $_POST['harga'];
         $berat = $_POST['berat'];
         $deskripsi = htmlspecialchars($_POST['deskripsi']);
 
 
         // Perform the SQL query to insert the data into the database
-        $sql = "INSERT INTO barang (nama_produk, jumlah_produk, foto_produk, kategori_produk, harga_produk, berat, deskripsi_produk, id_toko, vid, foto2, foto3,  panjang, lebar, tinggi, belah) 
-            VALUES ('$nama_produk', '$Stok_produk', '$foto_produk', '$kategori', '$harga', '$berat', '$deskripsi', '$id_penjual', '$vidioo','$foto2', '$foto3','$panjang','$lebar','$tinggi', '$belah')";
+        $sql = "INSERT INTO barang (nama_produk, jumlah_produk, foto_produk, kategori_produk, harga_produk, berat, deskripsi_produk, id_toko, vid, foto2, foto3,  panjang, lebar, tinggi, belah, SKU) 
+            VALUES ('$nama_produk', '$Stok_produk', '$foto_produk', '$kategori', '$harga', '$berat', '$deskripsi', '$id_penjual', '$vidioo','$foto2', '$foto3','$panjang','$lebar','$tinggi', '$belah', '$sku')";
 
         if (mysqli_query($conn, $sql)) {
-            echo "<script>alert('Data berhasil dimasukkan'); window.location.href='tampil_barang.php';</script>";
+            echo "<script>alert('Data berhasil dimasukkan'); window.location.href='list-produk.php';</script>";
             mysqli_close($conn);
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
@@ -148,7 +155,7 @@ function delete_item($var_id)
         mysqli_stmt_bind_param($stmt, "i", $var_id);
 
         if (mysqli_stmt_execute($stmt)) {
-            echo "<script>alert('Item deleted successfully'); window.location.href='tampil_barang.php';</script>";
+            echo "<script>alert('Item deleted successfully'); window.location.href='list-barang.php';</script>";
         } else {
             echo "Error deleting item";
         }

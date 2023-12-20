@@ -13,7 +13,7 @@ function login($conn, $nama_toko, $password)
         $_SESSION["penjual_id"] = $row["id_penjual"];
         return "<script>alert('Login successful'); window.location.href='../seller-dashboard/html/tambah-produk.php';</script>";
     } else {
-        return "Login failed";
+        return "<script>alert('Login Gagal');</script>";
     }
 }
 function logen()
@@ -22,9 +22,22 @@ function logen()
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nama_toko = $_POST['nama_toko'];
         $password = $_POST['password'];
+        $remember =  isset($_POST['remember']);
 
-        $result = login($conn, $nama_toko, $password);
-        echo $result;
+        if(login($conn, $nama_toko, $password)){
+            if ($remember) {
+                setcookie('penjual', $nama_toko, time() + (86400 * 30), "/"); // 86400 = 1 day
+                setcookie('password_penj', $password, time() + (86400 * 30), "/"); // 86400 = 1 day
+            }
+
+            $_SESSION['username'] = $nama_toko;
+            $_SESSION['password_penj'] = $password;
+            header("Location: toko.php");
+            exit();
+        } else {
+            $error_msg = '<div class="alert alert-danger">Login failed</div>';
+            echo $error_msg;
+        }
     }
 }
 
@@ -78,36 +91,10 @@ function registe()
 }
 
 //Tampil Data
-function tampil_data()
-{
-    global $conn;
-    $sql = "SELECT * FROM penjual";
-    $result = mysqli_query($conn, $sql);
-    return $result;
-}
+
 
 //Detail Toko
-function detail_data($var_id)
-{
-    global $conn;
-    global $result;
-    $sql = "SELECT *FROM penjual WHERE id_penjual=?";
-    if ($stmt = mysqli_prepare($conn, $sql)) {
-        mysqli_stmt_bind_param($stmt, "i", $param_id);
-        $param_id = $var_id;
-        if (mysqli_stmt_execute($stmt)) {
-            $result = mysqli_stmt_get_result($stmt);
-            if (mysqli_num_rows($result) == 1) {
-                return true; //jika ada data nilai true
-            } else {
-                return false; //jika data tidak ditemukan nilai false
-            }
-        } else {
-            echo "Terjadi kesalahan";
-        }
-    }
-    mysqli_stmt_close($stmt);
-}
+
 
 //Update Toko
 function update()
@@ -157,5 +144,11 @@ slogan='$slogan' ,deskripsi='$deskripsi', domain='$domain' where id_penjual='$id
             return "Update Failed";
         }
     }
+}
+
+function simpleprofile($id){
+    global $conn;
+    $penjual = mysqli_query($conn, "select * from penjual where id_penjual='$id'");
+    return $penjual;
 }
 ?>
