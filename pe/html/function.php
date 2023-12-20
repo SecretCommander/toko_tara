@@ -105,6 +105,7 @@ function update()
         $usia = $_POST['usia'];
         $provinsi = $_POST['provinsi'];
         $kota = $_POST['kota'];
+        $camat = $_POST['camat'];
 
 
         $queryShow = "SELECT * FROM pembeli WHERE  id_pembeli = '$id';";
@@ -127,7 +128,7 @@ function update()
 
         // query SQL untuk insert data ke dalam Mysql
         $sql = "UPDATE pembeli SET username='$username',profile='$foto' , nama_pembeli='$nama_pembeli', password='$password',
-telepon='$telepon', email='$email',alamat='$alamat', tgl_lahir='$usia', provinsi_p='$provinsi', kota_p='$kota' where id_pembeli='$id'";
+telepon='$telepon', email='$email',alamat='$alamat', tgl_lahir='$usia', provinsi_p='$provinsi', kota_p='$kota', kecamatan_p='$camat' where id_pembeli='$id'";
 
         // mengalihkan ke halaman index.php
         try {

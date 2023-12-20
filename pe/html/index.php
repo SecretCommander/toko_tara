@@ -17,7 +17,7 @@ update();
 
 mysqli_close($conn);
 ?>
-?>
+
 <!DOCTYPE html>
 
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/"
@@ -83,21 +83,21 @@ mysqli_close($conn);
                         <hr>
 
                         <li class="menu-item">
-                            <a href="index.html" class="menu-link">
+                            <a href="index.php" class="menu-link">
                                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                                 <div data-i18n="Analytics">Profile</div>
                             </a>
                         </li>
 
                         <li class="menu-item">
-                            <a href="index2.html" class="menu-link">
+                            <a href="pesan_user.php" class="menu-link">
                                 <i class="menu-icon tf-icons bx bx-message-dots"></i>
                                 <div data-i18n="Analytics">Pesan</div>
                             </a>
                         </li>
 
                         <li class="menu-item">
-                            <a href="index3.html" class="menu-link">
+                            <a href="faq.php" class="menu-link">
                                 <i class="menu-icon tf-icons bx bx-question-mark"></i>
                                 <div data-i18n="Analytics">FAQ</div>
                             </a>
@@ -190,12 +190,36 @@ mysqli_close($conn);
                                                             <hr>
                                                             <div class="row">
                                                                 <div class="col-sm-3">
-                                                                    <p class="mb-0">Address</p>
+                                                                    <p class="mb-0">Provinsi</p>
                                                                 </div>
                                                                 <div class="col-sm-9">
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?= $row1['alamat'] ?>" name="alamat"
-                                                                        aria-label="Address">
+                                                                <select name="provinsi" id="provinsi" class="form-select" aria-label="Default select example">
+                                                                    <option>Pilih</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="col-sm-3">
+                                                                    <p class="mb-0">Kota</p>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                <select name="kota" id="kota" class="form-select" aria-label="Default select example">
+                                                                    <option>Pilih</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="col-sm-3">
+                                                                    <p class="mb-0">Kecamatan</p>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                <select name="camat" id="camat" class="form-select" aria-label="Default select example">
+                                                                <option>Pilih</option>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <input type="hidden"
@@ -206,12 +230,6 @@ mysqli_close($conn);
                                                                 name="password">
                                                             <input type="hidden"
                                                                 value="<?php echo $row1['tgl_lahir']; ?>" name="usia">
-                                                            <input type="hidden"
-                                                                value="<?php echo $row1['provinsi_p']; ?>"
-                                                                name="provinsi">
-                                                            <input type="hidden" value="<?php echo $row1['kota_p']; ?>"
-                                                                name="kota">
-
                                                             <hr>
                                                             <input class="btn btn-outline-warning ms-5 me-5"
                                                                 type="submit" value="Ubah">
@@ -287,6 +305,7 @@ mysqli_close($conn);
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
+    <!-- preview gambar -->
     <script>
         var loadFile = function (event) {
             var image = document.getElementById("output");
@@ -294,5 +313,92 @@ mysqli_close($conn);
         };
     </script>
 </body>
+
+
+</body>
+<!-- fungsi API provinsi/kota/kecamatan -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- provinsi -->
+<script>
+    const selectProvinsi = document.getElementById('provinsi');
+    const selectedProvinsi = "<?php echo $row1['provinsi_p'];?>";
+    const selectKota = document.getElementById('kota');
+    const selectedKota = "<?php echo $row1['kota_p'];?>";
+    const selectedKecamatan = "<?php echo $row1['kecamatan_p'];?>";
+    console.log(`pilihan :${selectedKecamatan}`);
+    const selectKecamatan = document.getElementById('camat');
+    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
+        .then(response => response.json())
+        .then(provinces => {
+            var data = provinces;
+            var tampung = '<option>Pilih</option>';
+            
+            
+            data.forEach(element => {
+               
+                var selectedp = element.name == selectedProvinsi ? 'selected' : '';
+                tampung +=
+                    `<option data-reg="${element.id}" value="${element.name}" ${selectedp}>${element.name}</option>`;
+            });
+            document.getElementById('provinsi').innerHTML = tampung;
+            
+            document.getElementById('provinsi').dispatchEvent(new Event('change'));
+
+           
+        });
+    </script>
+<!-- kabupaten/kota  -->
+<script>
+   
+
+    selectProvinsi.addEventListener('change', (e) => {
+        var provinsi = e.target.options[e.target.selectedIndex].dataset.reg;
+        
+        fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinsi}.json`)
+            .then(response => response.json())
+            .then(regencies => {
+                var data = regencies;
+                var tampung = '<option>Pilih</option>';
+                
+                
+                data.forEach(element => {
+                    var selectedk = element.name == selectedKota ? 'selected' : '';
+                    tampung +=
+                        `<option data-dist="${element.id}" value="${element.name}" ${selectedk}>${element.name}</option>`;
+                });
+                document.getElementById('kota').innerHTML = tampung;
+                
+                document.getElementById('camat').innerHTML = '<option>Pilih</option>';
+
+                document.getElementById('kota').dispatchEvent(new Event('change'));
+
+                
+            });
+    });
+</script>
+<!-- Kecamatan/kelurahan -->
+<script>
+    
+    selectKota.addEventListener('change', (e) => {
+    var kota = e.target.options[e.target.selectedIndex].dataset.dist;
+
+    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kota}.json`)
+        .then(response => response.json())
+        .then(districts => {
+            var data = districts;
+            var tampung = '<option>Pilih</option>';
+
+            data.forEach(element => {
+                var selectedc = element.name === selectedKecamatan ? 'selected' : '';
+                tampung += `<option data-vill="${element.id}" value="${element.name}" ${selectedc}>${element.name}</option>`;
+            });
+
+            document.getElementById('camat').innerHTML = tampung;
+            document.getElementById('camat').dispatchEvent(new Event('change'));
+    });
+});
+</script>
 
 </html>
