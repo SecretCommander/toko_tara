@@ -11,17 +11,17 @@ function login($conn, $nama_toko, $password)
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $_SESSION["penjual_id"] = $row["id_penjual"];
-        return "<script>alert('Login successful'); window.location.href='../seller-dashboard/html/tambah-produk.php';</script>";
+        return true;
     } else {
-        return "<script>alert('Login Gagal');</script>";
+        return false;
     }
 }
 function logen()
 {
     global $conn;
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nama_toko = $_POST['nama_toko'];
-        $password = $_POST['password'];
+        $nama_toko = htmlspecialchars($_POST['nama_toko']);
+        $password = htmlspecialchars($_POST['password']);
         $remember =  isset($_POST['remember']);
 
         if(login($conn, $nama_toko, $password)){
@@ -42,17 +42,18 @@ function logen()
 }
 
 //Function Register SQL
-function register($conn, $nama_toko, $nama_penjual, $password, $foto_toko, $telepon, $email, $provinsi, $kota, $alamat, $slogan, $deskripsi, $domain)
+function register($conn, $nama_toko, $nama_penjual, $password, $foto_toko, $telepon, $email, $provinsi, $kota, $kecamatan, $alamat, $slogan, $deskripsi, $domain)
 {
-    $sql = "INSERT INTO penjual (nama_toko, nama_penjual, password, foto_toko, telepon, email, provinsi, kota, alamat, slogan, deskripsi, id_toko, domain) 
-    VALUES ('$nama_toko', '$nama_penjual', '$password', '$foto_toko', '$telepon', '$email', '$provinsi', '$kota', '$alamat', '$slogan', '$deskripsi', '$domain')";
+    $sql = "INSERT INTO penjual (nama_toko, nama_penjual, password, foto_toko, telepon, email, provinsi, kota, kecamatan, alamat, slogan, deskripsi, id_toko, domain) 
+    VALUES ('$nama_toko', '$nama_penjual', '$password', '$foto_toko', '$telepon', '$email', '$provinsi', '$kota', '$kecamatan', '$alamat', '$slogan', '$deskripsi', '$domain')";
     if (mysqli_query($conn, $sql)) {
         return true;
     } else {
         return false;
     }
 }
-//Register Toko/Penjual
+
+//Register/update Toko/Penjual
 function registe()
 {
     global $conn;
@@ -70,6 +71,7 @@ function registe()
         $email = htmlspecialchars($_POST['email']);
         $provinsi = $_POST['provinsi'];
         $kota = $_POST['kota'];
+        $kecamatan = $_POST['kecamatan'];
         $alamat = htmlspecialchars($_POST['alamat']);
         $slogan = htmlspecialchars($_POST['slogan']);
         $deskripsi = htmlspecialchars($_POST['deskripsi']);
@@ -80,8 +82,46 @@ function registe()
 
         move_uploaded_file($tmpfile, $dir . $foto_toko);
 
-        if (register($conn, $nama_toko, $nama_penjual, $password, $foto_toko, $telepon, $email, $provinsi, $kota, $alamat, $slogan, $deskripsi, $domain)) {
+        if (register($conn, $nama_toko, $nama_penjual, $password, $foto_toko, $telepon, $email, $provinsi, $kota,$kecamatan, $alamat, $slogan, $deskripsi, $domain)) {
             echo "<script>alert('Registration successful'); window.location.href='tampil_data.php';</script>";
+        } else {
+            echo "Registration failed <br>";
+            echo "Nama Toko Mungkin sudah ada <br>";
+
+        }
+    }
+}
+
+
+//Registrasi Penjual Awal
+function register2($conn, $nama_toko, $nama_penjual, $password, $telepon, $email, $provinsi, $kota, $kecamatan, $alamat)
+{
+    $sql = "INSERT INTO penjual (nama_toko, nama_penjual, password, telepon, email, provinsi, kota, kecamatan, alamat) 
+    VALUES ('$nama_toko', '$nama_penjual', '$password', '$telepon', '$email', '$provinsi', '$kota', '$kecamatan', '$alamat')";
+    if (mysqli_query($conn, $sql)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+function registering()
+{
+    global $conn;
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nama_toko      = htmlspecialchars($_POST['nama_toko']);
+        $nama_penjual   = htmlspecialchars($_POST['nama_penjual']);
+        $password       = htmlspecialchars($_POST['password']);
+        $telepon        = htmlspecialchars($_POST['telepon']);
+        $email          = htmlspecialchars($_POST['email']);
+        $provinsi       = $_POST['provinsi'];
+        $kota           = $_POST['kota'];
+        $kecamatan      = $_POST['kecamatan'];
+        $alamat         = htmlspecialchars($_POST['alamat']);
+
+
+
+        if (register2($conn, $nama_toko, $nama_penjual, $password, $telepon, $email, $provinsi, $kota,$kecamatan, $alamat)) {
+            echo "<script>alert('Registration successful'); window.location.href='auth-login-basic.php';</script>";
         } else {
             echo "Registration failed <br>";
             echo "Nama Toko Mungkin sudah ada <br>";

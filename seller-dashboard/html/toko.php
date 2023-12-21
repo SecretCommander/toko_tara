@@ -1,17 +1,17 @@
+<?php
+include 'koneksi.php';
+include 'function_pjl.php';
+
+if (!isset($_SESSION['penjual_id'])) {
+    header("location: auth-login-basic.php");
+}
+
+$row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
+
+?>
 <!DOCTYPE html>
 
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
 
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
-<!-- beautify ignore:start -->
 <html
   lang="en"
   class="light-style layout-menu-fixed"
@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Toko Tara</title>
 
     <meta name="description" content="" />
 
@@ -74,7 +74,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
-              <img src="../assets/img/taralogo.png" alt="" width="190px">
+              <img src="../assets/img/tara.png" alt="" width="190px">
               <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span> -->
             </a>
 
@@ -94,7 +94,7 @@
               </a>
             </li>
             <li class="menu-item active">
-              <a href="toko.html" class="menu-link">
+              <a href="toko.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-store-alt"></i>
                 <div>Toko</div>
               </a>
@@ -106,12 +106,12 @@
               </a>
               <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="tambah-produk.html" class="menu-link">
+                  <a href="tambah-produk.php" class="menu-link">
                     <div>Tambah Produk</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="list-produk.html" class="menu-link">
+                  <a href="list-produk.php" class="menu-link">
                     <div>List Produk</div>
                   </a>
                 </li>
@@ -168,8 +168,8 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
+                            <span class="fw-semibold d-block"><?= $row['nama_toko']; ?></span>
+                            <small class="text-muted"><?= $row['nama_penjual']; ?></small>
                           </div>
                         </div>
                       </a>
@@ -202,7 +202,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="logout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
@@ -230,27 +230,28 @@
                             <div class="">
                               <div class="card-body">
                                 <h6>Gambar Toko</h6>
-                                <img src="" alt="" class="img">
+                                <img src="#" alt="" class="img">    
                                 <p class="mt-2">Ekstensi file foto yang <br> diperbolehkan JPG,JPEG,PNG</p>
                                 <button type="button" class="btn btn-outline-success mb-3">Success</button><br>
                                 <label for="slogan" class="mb-2"><b>Slogan</b></label><br>
-                                <input class="form-control" type="text" name="slogan" id="slogan" placeholder="Masukkan Slogan Anda..."><br><br>
+                                <input class="form-control" type="text" name="slogan"  value="<?php echo $row['slogan'];?>" id="slogan" placeholder="Masukkan Slogan Anda..."><br><br>
                                 <label for="desc" class="mb-2"><b>Deskripsi</b></label>
-                                <textarea class="form-control" name="desc" id="desc" cols="30" rows="5" placeholder="Deskripsi"></textarea>
+                                <textarea class="form-control" name="desc" id="desc" cols="30" rows="5" placeholder="Masukkan Deskripsi Anda..."><?php echo $row['deskripsi']; ?></textarea>
                               </div>
                             </div>
                           </div>
                           <div class="col-lg-6 col-md-12 col-sm-12 col-6 mb-4">
                             <div class="">
                               <div class="card-body">
-                                <p><b>Nama Toko</b><br>Basreng Tara</p>
-                                <p><b>Domain Toko</b><br>www.tokotara.com/basreng</p>
+                                <p><b>Nama Toko</b><br><?= $row['nama_toko'] ?></p>
+                                <p><label for="domain" class="mb-2"><b>Domain</b></label><br>
+                                <input class="form-control" type="text" value="<?php echo $row['domain']; ?>" name="domain" id="domain" placeholder="Masukkan Domain Anda..."></p>
                                 <button type="button" class="btn btn-outline-success mb-5">Success</button>
                                 <h5 class="mt-2">Informasi Kontak</h5>
                                 <label for="email" class="mb-2"><b>E-mail</b></label><br>
-                                <input class="form-control" type="email" name="email" id="email" placeholder="Masukkan E-mail Anda..."><br><br>
+                                <input class="form-control" type="email"  value="<?php echo $row['email']; ?>" name="email" id="email" placeholder="Masukkan E-mail Anda..."><br><br>
                                 <label for="telp" class="mb-2"><b>No. Telepon</b></label><br>
-                                <input class="form-control" type="tel" name="telp" id="telp" placeholder="Masukkan Telepon Anda...">
+                                <input class="form-control" type="tel" value="<?php echo $row['telepon']; ?>" name="telp" id="telp" placeholder="Masukkan Telepon Anda...">
                               </div>
                             </div>
                           </div>
@@ -262,11 +263,11 @@
                         <div class="">
                           <div class="card-body">
                             <h6>Gambar Toko</h6>
-                            <img src="" alt="" class="img">
+                            <img src="#" alt="" class="img">
                             <p class="mt-2">Ekstensi file foto yang <br> diperbolehkan JPG,JPEG,PNG</p>
                             <button type="button" class="btn btn-outline-success mb-3">Success</button><br>
-                            <p><b>Nama Toko</b><br>Basreng Tara</p>
-                            <p><b>Domain Toko</b><br>www.tokotara.com/basreng</p>
+                            <p><b>Nama Toko</b><br><?= $row['nama_toko'] ?></p>
+                            <p><b>Domain Toko</b><br><?php echo $row['domain']; ?></p>
                             <button type="button" class="btn btn-outline-success">Success</button>
                           </div>
                         </div>
@@ -275,14 +276,14 @@
                         <div class="">
                           <div class="card-body">
                             <label for="slogan" class="mb-2"><b>Slogan</b></label><br>
-                            <input class="form-control" type="text" name="slogan" id="slogan" placeholder="Masukkan Slogan Anda..."><br>
+                            <input class="form-control" type="text" value="<?php echo $row['slogan'];?>" name="slogan" id="slogan" placeholder="Masukkan Slogan Anda..."><br>
                             <label for="desc" class="mb-2"><b>Deskripsi</b></label>
-                            <textarea class="form-control mb-5" name="desc" id="desc" cols="30" rows="5" placeholder="Deskripsi"></textarea>
+                            <textarea class="form-control mb-5" name="desc" id="desc" cols="30" rows="5" placeholder="Masukkan Deskripsi Anda..."><?php echo $row['deskripsi']; ?></textarea>
                             <h5 class="mt-2">Informasi Kontak</h5>
                             <label for="email" class="mb-2"><b>E-mail</b></label><br>
-                            <input class="form-control" type="email" name="email" id="email" placeholder="Masukkan E-mail Anda..."><br><br>
+                            <input class="form-control" type="email" value="<?php echo $row['email']; ?>" name="email" id="email" placeholder="Masukkan E-mail Anda..."><br><br>
                             <label for="telp" class="mb-2"><b>No. Telepon</b></label><br>
-                            <input class="form-control" type="tel" name="telp" id="telp" placeholder="Masukkan Telepon Anda...">
+                            <input class="form-control" type="tel" value="<?php echo $row['telepon']; ?>" name="telp" id="telp" placeholder="Masukkan Telepon Anda...">
                           </div>
                         </div>
                       </div>
@@ -338,6 +339,7 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
+
     <script src="../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>

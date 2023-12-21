@@ -200,6 +200,29 @@ foto_produk='$foto', harga_produk='$harga_produk', berat='$berat', deskripsi_pro
         echo "<script>alert('Data yang anda Update sukses');window.location='tampil_barang.php'</script>";
     }
 }
+
+function dataPembeli($var_id)
+{
+    global $conn;
+    global $result;
+    $sql = "SELECT *FROM pembeli WHERE id_pembeli=?";
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        $param_id = $var_id;
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+            if (mysqli_num_rows($result) == 1) {
+                return true; //jika ada data nilai true
+            } else {
+                return false; //jika data tidak ditemukan nilai false
+            }
+        } else {
+            echo "Terjadi kesalahan";
+        }
+    }
+    mysqli_stmt_close($stmt);
+}
+
 //Menampilkan Semua Barang
 function tampil_data()
 {

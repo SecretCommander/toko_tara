@@ -1,14 +1,20 @@
 <?php
 include 'koneksi.php';
 include 'function_pjl.php';
-
 include 'function.php';
+
+
+
 
 if (!isset($_SESSION['penjual_id'])) {
     header("location: auth-login-basic.php");
 }
 input_data();
 $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
+$query = "SELECT * FROM barang WHERE id_toko= '". $_SESSION['penjual_id'] . "'";;
+$jumlahBarang = mysqli_query($conn, $query);
+
+
 
 ?>
 <!DOCTYPE html>
@@ -212,7 +218,7 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
                                                     </div>
                                                     <div class="col-3">
                                                         <div class="text-end border border-success p-1 rounded justify-content-end">
-                                                            Produk Tersisa 50/30</div>
+                                                            Produk Tersisa <?php echo mysqli_num_rows($jumlahBarang); ?>/30</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -293,7 +299,7 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
-                                                            <div class="input-group input-group-merge mt-5">
+                                                            <div class="input-group input-group-merge mt-4">
                                                                 <input id="berat" type="number" name="berat" class="form-control" placeholder="1000" aria-label="1000" aria-describedby="basic-addon33" />
                                                                 <span class="input-group-text" id="basic-addon33">gram</span>
                                                             </div>
@@ -398,7 +404,7 @@ $row = mysqli_fetch_array(simpleprofile($_SESSION['penjual_id']));
                             <div class="card-body d-block d-sm-none">
                                 <div class="col-12">
                                     <h4>Tambahkan Produk Anda</h4>
-                                    <div class="col-7 text-end border border-success p-1 rounded ">Produk Tersisa 50/30</div>
+                                    <div class="col-7 text-end border border-success p-1 rounded ">Produk Tersisa <?php echo mysqli_num_rows($jumlahBarang); ?>/30</div>
                                     <div class="card-body mt-3">
                                         <h5>Informasi Produk</h5>
                                         <p class="p-1 border border-warning rounded">Pastikan produk anda tidak melanggar HAKI</p>
