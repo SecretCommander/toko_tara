@@ -1,6 +1,41 @@
 <?php
 require_once 'function_pjl.php';
+require_once 'function.php';
 require 'koneksi.php';
+
+//Penjual harus login Pembeli untuk membuat akun Penjual
+if (isset($_COOKIE['username']) && isset($_COOKIE['password'])) {
+  $cookieUsername = $_COOKIE['username'];
+  $cookiePassword = $_COOKIE['password'];
+
+  $cookieUsername = mysqli_real_escape_string($conn, $cookieUsername);
+  $cookiePassword = mysqli_real_escape_string($conn, $cookiePassword);
+
+  $query = "SELECT * FROM pembeli WHERE username='$cookieUsername' AND password='$cookiePassword'";
+  $result = mysqli_query($conn, $query);
+  
+
+  if ($result && mysqli_num_rows($result) > 0) {
+    $user = mysqli_fetch_assoc($result);
+    
+    $_SESSION['id_pembeli'] = $user['id_pembeli'];
+    $_SESSION['username'] = $user['username'];
+    $_SESSION['password'] = $user['password'];
+  }
+}
+
+
+if (!isset($_SESSION['username']) && !isset($_SESSION['password']) && !isset($_SESSION['id_pembeli'])) {
+  header("location: ../../login_register/index.php");
+  die("Login Terlebih Dahulu");
+}
+
+///////////
+if (dataPembeli(trim($_SESSION['id_pembeli']))) {
+  $row1 = mysqli_fetch_array($result);
+} 
+
+/////////
 
 //melihat remember me/ atau sudha login?
 if (isset($_SESSION['penjual_id'])){
@@ -14,7 +49,7 @@ if (isset($_COOKIE['penjual']) && isset($_COOKIE['password_penj'])) {
   $cookieUsername = mysqli_real_escape_string($conn, $cookieUsername);
   $cookiePassword = mysqli_real_escape_string($conn, $cookiePassword);
 
-  $query = "SELECT * FROM penjual WHERE username='$cookieUsername' AND password='$cookiePassword'";
+  $query = "SELECT * FROM penjual WHERE nama_toko='$cookieUsername' AND password='$cookiePassword'";
   $result = mysqli_query($conn, $query);
 
   if ($result && mysqli_num_rows($result) > 0) {
@@ -121,7 +156,7 @@ logen();
 
             <p class="text-center">
               <span>Masih baru kenal TokoTara?</span>
-              <a href="auth-register-basic.html">
+              <a href="auth-register-basic.php">
                 <span>Buat akun sekarang</span>
               </a>
             </p>
